@@ -1,0 +1,69 @@
+{
+  "build": {
+    "dockerfile": "./Dockerfile",
+    "context": ".."
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "zoma.vscode-auto-open-workspace",
+        "golang.go",
+        "mhutchie.git-graph",
+        "mutantdino.resourcemonitor",
+        "Compile-TomaszKasperczyk.copy-to-llm",
+        "donjayamanne.githistory",
+        "ryu1kn.partial-diff",
+        "tamasfe.even-better-toml",
+        "svelte.svelte-vscode",
+        "bradlc.vscode-tailwindcss",
+        "Chanzhaoyu.svelte-5-snippets",
+        "esbenp.prettier-vscode",
+        "vitest.explorer",
+        "Dart-Code.dart-code",
+        "astro-build.astro-vscode",
+        "unifiedjs.vscode-mdx"
+      ],
+      "settings": {
+        "autoOpenWorkspace.enableAutoOpenIfSingleWorkspace": true,
+        "editor.formatOnSave": true,
+        "editor.foldingStrategy": "indentation",
+        "files.eol": "\n",
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[css]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "css.validate": false,
+        "[html]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[markdown]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[yaml]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[svelte]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "svelte.enable-ts-plugin": true,
+        "[go]": {
+          "editor.defaultFormatter": "golang.go"
+        },
+        "go.lintTool": "golangci-lint",
+        "go.lintFlags": ["--fast"],
+        "go.testFlags": ["-v"]
+      }
+    }
+  }
+}
