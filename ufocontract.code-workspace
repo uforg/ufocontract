@@ -1,0 +1,16 @@
+{
+  "folders": [
+    {
+      "name": "Root",
+      "path": "./"
+    },
+    {
+      "name": "UFOC",
+      "path": "./ufoc"
+    },
+    {
+      "name": "Docs",
+      "path": "./docs"
+    }
+  ]
+}
