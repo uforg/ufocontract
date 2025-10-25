@@ -8,27 +8,35 @@ type Comment struct {
 }
 
 type File struct {
-	Pos        lexer.Position `parser:""`
-	Version    int            `parser:"'version' @Number"`
-	Namespaces []*Namespace   `parser:"@@*"`
+	Pos      lexer.Position `parser:""`
+	Version  int            `parser:"'version' @Number"`
+	Children []*FileChild   `parser:"@@*"`
+}
+
+type FileChild struct {
+	Pos       lexer.Position `parser:""`
+	Comments  []*Comment     `parser:"@@+"`
+	Namespace *Namespace     `parser:"| @@"`
+	Docstring *string        `parser:"| @Docstring"`
 }
 
 type Namespace struct {
-	Pos         lexer.Position `parser:""`
-	Comments    []*Comment     `parser:"@@*"`
-	Docstring   *string        `parser:"@Docstring?"`
-	Name        string         `parser:"'namespace' @Ident '{'"`
-	Definitions []*Definition  `parser:"@@* '}'"`
+	Pos       lexer.Position    `parser:""`
+	Comments  []*Comment        `parser:"@@*"`
+	Docstring *string           `parser:"@Docstring?"`
+	Name      string            `parser:"'namespace' @Ident '{'"`
+	Children  []*NamespaceChild `parser:"@@* '}'"`
 }
 
-type Definition struct {
+type NamespaceChild struct {
 	Pos lexer.Position `parser:""`
 
-	Comments []*Comment  `parser:"@@*"`
-	Type     *TypeDef    `parser:"  @@"`
-	Enum     *EnumDef    `parser:"| @@"`
-	Const    *ConstDef   `parser:"| @@"`
-	Pattern  *PatternDef `parser:"| @@"`
+	Comments  []*Comment  `parser:"@@+"`
+	Type      *TypeDef    `parser:"| @@"`
+	Enum      *EnumDef    `parser:"| @@"`
+	Const     *ConstDef   `parser:"| @@"`
+	Pattern   *PatternDef `parser:"| @@"`
+	Docstring *string     `parser:"| @Docstring"`
 }
 
 type TypeDef struct {

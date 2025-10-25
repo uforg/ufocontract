@@ -25,9 +25,11 @@ func TestParserEmptyNamespace(t *testing.T) {
 
 	assertAST(t, input, &File{
 		Version: 1,
-		Namespaces: []*Namespace{
+		Children: []*FileChild{
 			{
-				Name: "Tasks",
+				Namespace: &Namespace{
+					Name: "Tasks",
+				},
 			},
 		},
 	})
@@ -45,10 +47,12 @@ func TestParserNamespaceWithDocstring(t *testing.T) {
 	docstring := "\"\"\"\n\t\tDocumentation for Tasks namespace.\n\t\t\"\"\""
 	assertAST(t, input, &File{
 		Version: 1,
-		Namespaces: []*Namespace{
+		Children: []*FileChild{
 			{
-				Docstring: &docstring,
-				Name:      "Tasks",
+				Namespace: &Namespace{
+					Docstring: &docstring,
+					Name:      "Tasks",
+				},
 			},
 		},
 	})
@@ -67,24 +71,26 @@ func TestParserSimpleType(t *testing.T) {
 
 	assertAST(t, input, &File{
 		Version: 1,
-		Namespaces: []*Namespace{
+		Children: []*FileChild{
 			{
-				Name: "Tasks",
-				Definitions: []*Definition{
-					{
-						Type: &TypeDef{
-							Name: "Task",
-							Fields: []*Field{
-								{
-									Name: "id",
-									Type: &TypeRef{
-										Named: strPtr("string"),
+				Namespace: &Namespace{
+					Name: "Tasks",
+					Children: []*NamespaceChild{
+						{
+							Type: &TypeDef{
+								Name: "Task",
+								Fields: []*Field{
+									{
+										Name: "id",
+										Type: &TypeRef{
+											Named: strPtr("string"),
+										},
 									},
-								},
-								{
-									Name: "status",
-									Type: &TypeRef{
-										Named: strPtr("int"),
+									{
+										Name: "status",
+										Type: &TypeRef{
+											Named: strPtr("int"),
+										},
 									},
 								},
 							},
@@ -109,25 +115,27 @@ func TestParserOptionalField(t *testing.T) {
 
 	assertAST(t, input, &File{
 		Version: 1,
-		Namespaces: []*Namespace{
+		Children: []*FileChild{
 			{
-				Name: "Tasks",
-				Definitions: []*Definition{
-					{
-						Type: &TypeDef{
-							Name: "Task",
-							Fields: []*Field{
-								{
-									Name: "id",
-									Type: &TypeRef{
-										Named: strPtr("string"),
+				Namespace: &Namespace{
+					Name: "Tasks",
+					Children: []*NamespaceChild{
+						{
+							Type: &TypeDef{
+								Name: "Task",
+								Fields: []*Field{
+									{
+										Name: "id",
+										Type: &TypeRef{
+											Named: strPtr("string"),
+										},
 									},
-								},
-								{
-									Name:     "tags",
-									Optional: true,
-									Type: &TypeRef{
-										Named: strPtr("string"),
+									{
+										Name:     "tags",
+										Optional: true,
+										Type: &TypeRef{
+											Named: strPtr("string"),
+										},
 									},
 								},
 							},
@@ -151,19 +159,21 @@ func TestParserArrayType(t *testing.T) {
 
 	assertAST(t, input, &File{
 		Version: 1,
-		Namespaces: []*Namespace{
+		Children: []*FileChild{
 			{
-				Name: "Tasks",
-				Definitions: []*Definition{
-					{
-						Type: &TypeDef{
-							Name: "Task",
-							Fields: []*Field{
-								{
-									Name: "tags",
-									Type: &TypeRef{
-										Named: strPtr("string"),
-										Array: true,
+				Namespace: &Namespace{
+					Name: "Tasks",
+					Children: []*NamespaceChild{
+						{
+							Type: &TypeDef{
+								Name: "Task",
+								Fields: []*Field{
+									{
+										Name: "tags",
+										Type: &TypeRef{
+											Named: strPtr("string"),
+											Array: true,
+										},
 									},
 								},
 							},
@@ -189,17 +199,19 @@ func TestParserEnum(t *testing.T) {
 
 	assertAST(t, input, &File{
 		Version: 1,
-		Namespaces: []*Namespace{
+		Children: []*FileChild{
 			{
-				Name: "Tasks",
-				Definitions: []*Definition{
-					{
-						Enum: &EnumDef{
-							Name: "TaskStatus",
-							Members: []*EnumMember{
-								{Name: "PENDING"},
-								{Name: "RUNNING"},
-								{Name: "COMPLETED"},
+				Namespace: &Namespace{
+					Name: "Tasks",
+					Children: []*NamespaceChild{
+						{
+							Enum: &EnumDef{
+								Name: "TaskStatus",
+								Members: []*EnumMember{
+									{Name: "PENDING"},
+									{Name: "RUNNING"},
+									{Name: "COMPLETED"},
+								},
 							},
 						},
 					},
@@ -222,25 +234,27 @@ func TestParserEnumWithValues(t *testing.T) {
 
 	assertAST(t, input, &File{
 		Version: 1,
-		Namespaces: []*Namespace{
+		Children: []*FileChild{
 			{
-				Name: "Tasks",
-				Definitions: []*Definition{
-					{
-						Enum: &EnumDef{
-							Name:     "ErrorCode",
-							BaseType: strPtr("int"),
-							Members: []*EnumMember{
-								{
-									Name: "UNKNOWN",
-									Value: &Value{
-										Number: strPtr("1"),
+				Namespace: &Namespace{
+					Name: "Tasks",
+					Children: []*NamespaceChild{
+						{
+							Enum: &EnumDef{
+								Name:     "ErrorCode",
+								BaseType: strPtr("int"),
+								Members: []*EnumMember{
+									{
+										Name: "UNKNOWN",
+										Value: &Value{
+											Number: strPtr("1"),
+										},
 									},
-								},
-								{
-									Name: "TIMEOUT",
-									Value: &Value{
-										Number: strPtr("100"),
+									{
+										Name: "TIMEOUT",
+										Value: &Value{
+											Number: strPtr("100"),
+										},
 									},
 								},
 							},
@@ -262,18 +276,20 @@ func TestParserConst(t *testing.T) {
 
 	assertAST(t, input, &File{
 		Version: 1,
-		Namespaces: []*Namespace{
+		Children: []*FileChild{
 			{
-				Name: "Tasks",
-				Definitions: []*Definition{
-					{
-						Const: &ConstDef{
-							Name: "MaxRetries",
-							Type: &TypeRef{
-								Named: strPtr("int"),
-							},
-							Value: &Value{
-								Number: strPtr("5"),
+				Namespace: &Namespace{
+					Name: "Tasks",
+					Children: []*NamespaceChild{
+						{
+							Const: &ConstDef{
+								Name: "MaxRetries",
+								Type: &TypeRef{
+									Named: strPtr("int"),
+								},
+								Value: &Value{
+									Number: strPtr("5"),
+								},
 							},
 						},
 					},
@@ -293,14 +309,16 @@ func TestParserPattern(t *testing.T) {
 
 	assertAST(t, input, &File{
 		Version: 1,
-		Namespaces: []*Namespace{
+		Children: []*FileChild{
 			{
-				Name: "Tasks",
-				Definitions: []*Definition{
-					{
-						Pattern: &PatternDef{
-							Name:    "TaskTopic",
-							Pattern: "\"{ns}.{taskId}.updates\"",
+				Namespace: &Namespace{
+					Name: "Tasks",
+					Children: []*NamespaceChild{
+						{
+							Pattern: &PatternDef{
+								Name:    "TaskTopic",
+								Pattern: "\"{ns}.{taskId}.updates\"",
+							},
 						},
 					},
 				},
@@ -322,19 +340,21 @@ func TestParserDeprecated(t *testing.T) {
 
 	assertAST(t, input, &File{
 		Version: 1,
-		Namespaces: []*Namespace{
+		Children: []*FileChild{
 			{
-				Name: "Tasks",
-				Definitions: []*Definition{
-					{
-						Type: &TypeDef{
-							Deprecated: strPtr("\"Use NewTask instead\""),
-							Name:       "OldTask",
-							Fields: []*Field{
-								{
-									Name: "id",
-									Type: &TypeRef{
-										Named: strPtr("string"),
+				Namespace: &Namespace{
+					Name: "Tasks",
+					Children: []*NamespaceChild{
+						{
+							Type: &TypeDef{
+								Deprecated: strPtr("\"Use NewTask instead\""),
+								Name:       "OldTask",
+								Fields: []*Field{
+									{
+										Name: "id",
+										Type: &TypeRef{
+											Named: strPtr("string"),
+										},
 									},
 								},
 							},
@@ -350,11 +370,29 @@ func TestParserCompleteExample(t *testing.T) {
 	input := `
 		version 1
 
+		""" This is a standalone docstring. """
+
+		namespace FooBar {}
+
+		// This is a standalone comment.
+
+		/*
+			This is a standalone block comment.
+		*/
+
 		"""
 		This file defines all data contracts
 		for the Tasks domain.
 		"""
 		namespace Tasks {
+
+			""" This is a standalone docstring. """
+
+			// This is a standalone comment.
+
+			/*
+				This is a standalone block comment.
+			*/
 
 			"""
 			Maximum number of retries for a task.
@@ -405,93 +443,113 @@ func TestParserCompleteExample(t *testing.T) {
 
 	assertAST(t, input, &File{
 		Version: 1,
-		Namespaces: []*Namespace{
+		Children: []*FileChild{
 			{
-				Docstring: strPtr("\"\"\"\n\t\tThis file defines all data contracts\n\t\tfor the Tasks domain.\n\t\t\"\"\""),
-				Name:      "Tasks",
-				Definitions: []*Definition{
-					{
-						Const: &ConstDef{
-							Docstring: strPtr("\"\"\"\n\t\t\tMaximum number of retries for a task.\n\t\t\t\"\"\""),
-							Name:      "MaxRetries",
-							Type: &TypeRef{
-								Named: strPtr("int"),
-							},
-							Value: &Value{
-								Number: strPtr("5"),
+				Docstring: strPtr("\"\"\" This is a standalone docstring. \"\"\""),
+			},
+			{
+				Comments: []*Comment{
+					{Text: "// This is a standalone comment."},
+					{Text: "/*\n\t\t\tThis is a standalone block comment.\n\t\t*/"},
+				},
+			},
+			{
+				Namespace: &Namespace{
+					Docstring: strPtr("\"\"\"\n\t\tThis file defines all data contracts\n\t\tfor the Tasks domain.\n\t\t\"\"\""),
+					Name:      "Tasks",
+					Children: []*NamespaceChild{
+						{
+							Docstring: strPtr("\"\"\" This is a standalone docstring. \"\"\""),
+						},
+						{
+							Comments: []*Comment{
+								{Text: "// This is a standalone comment."},
+								{Text: "/*\n\t\t\t\tThis is a standalone block comment.\n\t\t\t*/"},
 							},
 						},
-					},
-					{
-						Enum: &EnumDef{
-							Docstring: strPtr("\"\"\"\n\t\t\tDefines the possible states of a Task.\n\t\t\t\"\"\""),
-							Name:      "TaskStatus",
-							Members: []*EnumMember{
-								{Name: "PENDING"},
-								{Name: "RUNNING"},
-								{Name: "COMPLETED"},
-								{Name: "FAILED"},
-							},
-						},
-					},
-					{
-						Type: &TypeDef{
-							Docstring: strPtr("\"\"\"\n\t\t\tPayload for creating a new task.\n\t\t\t\"\"\""),
-							Name:      "CreateTaskPayload",
-							Fields: []*Field{
-								{
-									Docstring: strPtr("\"\"\" Correlation ID for tracking. \"\"\""),
-									Name:      "correlationId",
-									Type: &TypeRef{
-										Named: strPtr("string"),
-									},
+						{
+							Const: &ConstDef{
+								Docstring: strPtr("\"\"\"\n\t\t\tMaximum number of retries for a task.\n\t\t\t\"\"\""),
+								Name:      "MaxRetries",
+								Type: &TypeRef{
+									Named: strPtr("int"),
 								},
-								{
-									Docstring: strPtr("\"\"\" The name of the task to execute. \"\"\""),
-									Name:      "taskName",
-									Type: &TypeRef{
-										Named: strPtr("string"),
-									},
+								Value: &Value{
+									Number: strPtr("5"),
 								},
 							},
 						},
-					},
-					{
-						Type: &TypeDef{
-							Docstring: strPtr("\"\"\"\n\t\t\tDefines the structure of a stored Task.\n\t\t\t\"\"\""),
-							Name:      "Task",
-							Fields: []*Field{
-								{
-									Docstring: strPtr("\"\"\" Unique ID of the task. \"\"\""),
-									Name:      "id",
-									Type: &TypeRef{
-										Named: strPtr("string"),
-									},
+						{
+							Enum: &EnumDef{
+								Docstring: strPtr("\"\"\"\n\t\t\tDefines the possible states of a Task.\n\t\t\t\"\"\""),
+								Name:      "TaskStatus",
+								Members: []*EnumMember{
+									{Name: "PENDING"},
+									{Name: "RUNNING"},
+									{Name: "COMPLETED"},
+									{Name: "FAILED"},
 								},
-								{
-									Docstring: strPtr("\"\"\" Current status of the task. \"\"\""),
-									Name:      "status",
-									Type: &TypeRef{
-										Named: strPtr("TaskStatus"),
+							},
+						},
+						{
+							Type: &TypeDef{
+								Docstring: strPtr("\"\"\"\n\t\t\tPayload for creating a new task.\n\t\t\t\"\"\""),
+								Name:      "CreateTaskPayload",
+								Fields: []*Field{
+									{
+										Docstring: strPtr("\"\"\" Correlation ID for tracking. \"\"\""),
+										Name:      "correlationId",
+										Type: &TypeRef{
+											Named: strPtr("string"),
+										},
 									},
-								},
-								{
-									Docstring: strPtr("\"\"\" Optional tags for filtering. \"\"\""),
-									Name:      "tags",
-									Optional:  true,
-									Type: &TypeRef{
-										Named: strPtr("string"),
-										Array: true,
+									{
+										Docstring: strPtr("\"\"\" The name of the task to execute. \"\"\""),
+										Name:      "taskName",
+										Type: &TypeRef{
+											Named: strPtr("string"),
+										},
 									},
 								},
 							},
 						},
-					},
-					{
-						Pattern: &PatternDef{
-							Docstring: strPtr("\"\"\"\n\t\t\tTopic for updates on a specific task.\n\t\t\t\"\"\""),
-							Name:      "TaskUpdatesTopic",
-							Pattern:   "\"{ns}.{taskId}.updates\"",
+						{
+							Type: &TypeDef{
+								Docstring: strPtr("\"\"\"\n\t\t\tDefines the structure of a stored Task.\n\t\t\t\"\"\""),
+								Name:      "Task",
+								Fields: []*Field{
+									{
+										Docstring: strPtr("\"\"\" Unique ID of the task. \"\"\""),
+										Name:      "id",
+										Type: &TypeRef{
+											Named: strPtr("string"),
+										},
+									},
+									{
+										Docstring: strPtr("\"\"\" Current status of the task. \"\"\""),
+										Name:      "status",
+										Type: &TypeRef{
+											Named: strPtr("TaskStatus"),
+										},
+									},
+									{
+										Docstring: strPtr("\"\"\" Optional tags for filtering. \"\"\""),
+										Name:      "tags",
+										Optional:  true,
+										Type: &TypeRef{
+											Named: strPtr("string"),
+											Array: true,
+										},
+									},
+								},
+							},
+						},
+						{
+							Pattern: &PatternDef{
+								Docstring: strPtr("\"\"\"\n\t\t\tTopic for updates on a specific task.\n\t\t\t\"\"\""),
+								Name:      "TaskUpdatesTopic",
+								Pattern:   "\"{ns}.{taskId}.updates\"",
+							},
 						},
 					},
 				},
