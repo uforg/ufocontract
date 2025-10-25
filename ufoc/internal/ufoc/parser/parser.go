@@ -7,6 +7,6 @@ import (
 
 var Parser = participle.MustBuild[File](
 	participle.Lexer(lexer.Def),
-	participle.Elide("Whitespace"),
+	participle.Elide("Whitespace", "Newline", "BlankLine"),
 	participle.UseLookahead(2),
 )

@@ -14,10 +14,16 @@ type File struct {
 }
 
 type FileChild struct {
+	Pos              lexer.Position       `parser:""`
+	StandaloneDocStr *StandaloneDocstring `parser:"@@"`
+	Comment          *Comment             `parser:"| @@"`
+	Namespace        *Namespace           `parser:"| @@"`
+}
+
+type StandaloneDocstring struct {
 	Pos       lexer.Position `parser:""`
-	Comments  []*Comment     `parser:"@@+"`
-	Namespace *Namespace     `parser:"| @@"`
-	Docstring *string        `parser:"| @Docstring"`
+	Text      string         `parser:"@Docstring"`
+	BlankLine bool           `parser:"@BlankLine"`
 }
 
 type Namespace struct {
@@ -31,12 +37,12 @@ type Namespace struct {
 type NamespaceChild struct {
 	Pos lexer.Position `parser:""`
 
-	Comments  []*Comment  `parser:"@@+"`
-	Type      *TypeDef    `parser:"| @@"`
-	Enum      *EnumDef    `parser:"| @@"`
-	Const     *ConstDef   `parser:"| @@"`
-	Pattern   *PatternDef `parser:"| @@"`
-	Docstring *string     `parser:"| @Docstring"`
+	StandaloneDocStr *StandaloneDocstring `parser:"@@"`
+	Comment          *Comment             `parser:"| @@"`
+	Type             *TypeDef             `parser:"| @@"`
+	Enum             *EnumDef             `parser:"| @@"`
+	Const            *ConstDef            `parser:"| @@"`
+	Pattern          *PatternDef          `parser:"| @@"`
 }
 
 type TypeDef struct {

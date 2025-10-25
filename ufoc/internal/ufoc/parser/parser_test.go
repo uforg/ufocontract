@@ -445,13 +445,18 @@ func TestParserCompleteExample(t *testing.T) {
 		Version: 1,
 		Children: []*FileChild{
 			{
-				Docstring: strPtr("\"\"\" This is a standalone docstring. \"\"\""),
+				StandaloneDocStr: &StandaloneDocstring{Text: "\"\"\" This is a standalone docstring. \"\"\"", BlankLine: true},
 			},
 			{
-				Comments: []*Comment{
-					{Text: "// This is a standalone comment."},
-					{Text: "/*\n\t\t\tThis is a standalone block comment.\n\t\t*/"},
+				Namespace: &Namespace{
+					Name: "FooBar",
 				},
+			},
+			{
+				Comment: &Comment{Text: "// This is a standalone comment."},
+			},
+			{
+				Comment: &Comment{Text: "/*\n\t\t\tThis is a standalone block comment.\n\t\t*/"},
 			},
 			{
 				Namespace: &Namespace{
@@ -459,13 +464,13 @@ func TestParserCompleteExample(t *testing.T) {
 					Name:      "Tasks",
 					Children: []*NamespaceChild{
 						{
-							Docstring: strPtr("\"\"\" This is a standalone docstring. \"\"\""),
+							StandaloneDocStr: &StandaloneDocstring{Text: "\"\"\" This is a standalone docstring. \"\"\"", BlankLine: true},
 						},
 						{
-							Comments: []*Comment{
-								{Text: "// This is a standalone comment."},
-								{Text: "/*\n\t\t\t\tThis is a standalone block comment.\n\t\t\t*/"},
-							},
+							Comment: &Comment{Text: "// This is a standalone comment."},
+						},
+						{
+							Comment: &Comment{Text: "/*\n\t\t\t\tThis is a standalone block comment.\n\t\t\t*/"},
 						},
 						{
 							Const: &ConstDef{

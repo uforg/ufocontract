@@ -13,5 +13,7 @@ var Def = lexer.MustSimple([]lexer.SimpleRule{
 	{Name: "String", Pattern: `"(?:[^"\\]|\\["\\/bfnrt]|\\u[0-9a-fA-F]{4})*"`},
 	{Name: "Ident", Pattern: `[a-zA-Z][a-zA-Z0-9]*`},
 	{Name: "Punct", Pattern: `[{}()\[\]:=,?]`},
-	{Name: "Whitespace", Pattern: `[ \t\n\r]+`},
+	{Name: "BlankLine", Pattern: `\n[ \t]*\n`},
+	{Name: "Newline", Pattern: `\n`},
+	{Name: "Whitespace", Pattern: `[ \t\r]+`},
 })
