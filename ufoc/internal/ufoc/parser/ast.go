@@ -33,12 +33,10 @@ type Docstring struct {
 }
 
 type Namespace struct {
-	Pos           lexer.Position    `parser:""`
-	Comments      []*Comment        `parser:"@@*"`
-	BlockComments []*BlockComment   `parser:"@@*"`
-	Docstring     *string           `parser:"@Docstring?"`
-	Name          string            `parser:"'namespace' @Ident '{'"`
-	Children      []*NamespaceChild `parser:"@@* '}'"`
+	Pos       lexer.Position    `parser:""`
+	Docstring *string           `parser:"@Docstring?"`
+	Name      string            `parser:"'namespace' @Ident '{'"`
+	Children  []*NamespaceChild `parser:"@@* '}'"`
 }
 
 type NamespaceChild struct {
@@ -62,13 +60,11 @@ type TypeDef struct {
 }
 
 type Field struct {
-	Pos           lexer.Position  `parser:""`
-	Comments      []*Comment      `parser:"@@*"`
-	BlockComments []*BlockComment `parser:"@@*"`
-	Docstring     *string         `parser:"@Docstring?"`
-	Name          string          `parser:"@Ident"`
-	Optional      bool            `parser:"@'?'?"`
-	Type          *TypeRef        `parser:"':' @@"`
+	Pos       lexer.Position `parser:""`
+	Docstring *string        `parser:"@Docstring?"`
+	Name      string         `parser:"@Ident"`
+	Optional  bool           `parser:"@'?'?"`
+	Type      *TypeRef       `parser:"':' @@"`
 }
 
 type TypeRef struct {
@@ -94,12 +90,10 @@ type EnumDef struct {
 }
 
 type EnumMember struct {
-	Pos           lexer.Position  `parser:""`
-	Comments      []*Comment      `parser:"@@*"`
-	BlockComments []*BlockComment `parser:"@@*"`
-	Docstring     *string         `parser:"@Docstring?"`
-	Name          string          `parser:"@Ident"`
-	Value         *Value          `parser:"( '=' @@ )?"`
+	Pos       lexer.Position `parser:""`
+	Docstring *string        `parser:"@Docstring?"`
+	Name      string         `parser:"@Ident"`
+	Value     *Value         `parser:"( '=' @@ )?"`
 }
 
 type ConstDef struct {
