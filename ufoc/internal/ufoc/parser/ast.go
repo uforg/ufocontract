@@ -17,7 +17,7 @@ type Namespace struct {
 	Pos         lexer.Position `parser:""`
 	Comments    []*Comment     `parser:"@@*"`
 	Docstring   *string        `parser:"@Docstring?"`
-	Name        string         `parser:"'namespace' @String '{'"`
+	Name        string         `parser:"'namespace' @Ident '{'"`
 	Definitions []*Definition  `parser:"@@* '}'"`
 }
 

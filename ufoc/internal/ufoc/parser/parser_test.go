@@ -20,14 +20,14 @@ func TestParserSimpleVersion(t *testing.T) {
 func TestParserEmptyNamespace(t *testing.T) {
 	input := `
 		version 1
-		namespace "Tasks" {}
+		namespace Tasks {}
 	`
 
 	assertAST(t, input, &File{
 		Version: 1,
 		Namespaces: []*Namespace{
 			{
-				Name: "\"Tasks\"",
+				Name: "Tasks",
 			},
 		},
 	})
@@ -39,7 +39,7 @@ func TestParserNamespaceWithDocstring(t *testing.T) {
 		"""
 		Documentation for Tasks namespace.
 		"""
-		namespace "Tasks" {}
+		namespace Tasks {}
 	`
 
 	docstring := "\"\"\"\n\t\tDocumentation for Tasks namespace.\n\t\t\"\"\""
@@ -48,7 +48,7 @@ func TestParserNamespaceWithDocstring(t *testing.T) {
 		Namespaces: []*Namespace{
 			{
 				Docstring: &docstring,
-				Name:      "\"Tasks\"",
+				Name:      "Tasks",
 			},
 		},
 	})
@@ -57,7 +57,7 @@ func TestParserNamespaceWithDocstring(t *testing.T) {
 func TestParserSimpleType(t *testing.T) {
 	input := `
 		version 1
-		namespace "Tasks" {
+		namespace Tasks {
 			type Task {
 				id: string
 				status: int
@@ -69,7 +69,7 @@ func TestParserSimpleType(t *testing.T) {
 		Version: 1,
 		Namespaces: []*Namespace{
 			{
-				Name: "\"Tasks\"",
+				Name: "Tasks",
 				Definitions: []*Definition{
 					{
 						Type: &TypeDef{
@@ -99,7 +99,7 @@ func TestParserSimpleType(t *testing.T) {
 func TestParserOptionalField(t *testing.T) {
 	input := `
 		version 1
-		namespace "Tasks" {
+		namespace Tasks {
 			type Task {
 				id: string
 				tags?: string
@@ -111,7 +111,7 @@ func TestParserOptionalField(t *testing.T) {
 		Version: 1,
 		Namespaces: []*Namespace{
 			{
-				Name: "\"Tasks\"",
+				Name: "Tasks",
 				Definitions: []*Definition{
 					{
 						Type: &TypeDef{
@@ -142,7 +142,7 @@ func TestParserOptionalField(t *testing.T) {
 func TestParserArrayType(t *testing.T) {
 	input := `
 		version 1
-		namespace "Tasks" {
+		namespace Tasks {
 			type Task {
 				tags: string[]
 			}
@@ -153,7 +153,7 @@ func TestParserArrayType(t *testing.T) {
 		Version: 1,
 		Namespaces: []*Namespace{
 			{
-				Name: "\"Tasks\"",
+				Name: "Tasks",
 				Definitions: []*Definition{
 					{
 						Type: &TypeDef{
@@ -178,7 +178,7 @@ func TestParserArrayType(t *testing.T) {
 func TestParserEnum(t *testing.T) {
 	input := `
 		version 1
-		namespace "Tasks" {
+		namespace Tasks {
 			enum TaskStatus {
 				PENDING
 				RUNNING
@@ -191,7 +191,7 @@ func TestParserEnum(t *testing.T) {
 		Version: 1,
 		Namespaces: []*Namespace{
 			{
-				Name: "\"Tasks\"",
+				Name: "Tasks",
 				Definitions: []*Definition{
 					{
 						Enum: &EnumDef{
@@ -212,7 +212,7 @@ func TestParserEnum(t *testing.T) {
 func TestParserEnumWithValues(t *testing.T) {
 	input := `
 		version 1
-		namespace "Tasks" {
+		namespace Tasks {
 			enum ErrorCode: int {
 				UNKNOWN = 1
 				TIMEOUT = 100
@@ -224,7 +224,7 @@ func TestParserEnumWithValues(t *testing.T) {
 		Version: 1,
 		Namespaces: []*Namespace{
 			{
-				Name: "\"Tasks\"",
+				Name: "Tasks",
 				Definitions: []*Definition{
 					{
 						Enum: &EnumDef{
@@ -255,7 +255,7 @@ func TestParserEnumWithValues(t *testing.T) {
 func TestParserConst(t *testing.T) {
 	input := `
 		version 1
-		namespace "Tasks" {
+		namespace Tasks {
 			const MaxRetries: int = 5
 		}
 	`
@@ -264,7 +264,7 @@ func TestParserConst(t *testing.T) {
 		Version: 1,
 		Namespaces: []*Namespace{
 			{
-				Name: "\"Tasks\"",
+				Name: "Tasks",
 				Definitions: []*Definition{
 					{
 						Const: &ConstDef{
@@ -286,7 +286,7 @@ func TestParserConst(t *testing.T) {
 func TestParserPattern(t *testing.T) {
 	input := `
 		version 1
-		namespace "Tasks" {
+		namespace Tasks {
 			pattern TaskTopic = "{ns}.{taskId}.updates"
 		}
 	`
@@ -295,7 +295,7 @@ func TestParserPattern(t *testing.T) {
 		Version: 1,
 		Namespaces: []*Namespace{
 			{
-				Name: "\"Tasks\"",
+				Name: "Tasks",
 				Definitions: []*Definition{
 					{
 						Pattern: &PatternDef{
@@ -312,7 +312,7 @@ func TestParserPattern(t *testing.T) {
 func TestParserDeprecated(t *testing.T) {
 	input := `
 		version 1
-		namespace "Tasks" {
+		namespace Tasks {
 			deprecated("Use NewTask instead")
 			type OldTask {
 				id: string
@@ -324,7 +324,7 @@ func TestParserDeprecated(t *testing.T) {
 		Version: 1,
 		Namespaces: []*Namespace{
 			{
-				Name: "\"Tasks\"",
+				Name: "Tasks",
 				Definitions: []*Definition{
 					{
 						Type: &TypeDef{
@@ -354,7 +354,7 @@ func TestParserCompleteExample(t *testing.T) {
 		This file defines all data contracts
 		for the Tasks domain.
 		"""
-		namespace "Tasks" {
+		namespace Tasks {
 
 			"""
 			Maximum number of retries for a task.
@@ -408,7 +408,7 @@ func TestParserCompleteExample(t *testing.T) {
 		Namespaces: []*Namespace{
 			{
 				Docstring: strPtr("\"\"\"\n\t\tThis file defines all data contracts\n\t\tfor the Tasks domain.\n\t\t\"\"\""),
-				Name:      "\"Tasks\"",
+				Name:      "Tasks",
 				Definitions: []*Definition{
 					{
 						Const: &ConstDef{
