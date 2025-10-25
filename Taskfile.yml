@@ -1,0 +1,19 @@
+# https://taskfile.dev
+
+version: "3"
+
+tasks:
+  ci:
+    desc: Run all the project CI checks
+    cmds:
+      - cd ./ufoc && task ci
+
+  test:
+    desc: Run all the project tests
+    cmds:
+      - cd ./ufoc && task test
+
+  lint:
+    desc: Run all the project linters
+    cmds:
+      - cd ./ufoc && task lint
