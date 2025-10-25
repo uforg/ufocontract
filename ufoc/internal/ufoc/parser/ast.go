@@ -4,7 +4,12 @@ import "github.com/alecthomas/participle/v2/lexer"
 
 type Comment struct {
 	Pos  lexer.Position `parser:""`
-	Text string         `parser:"@Comment | @BlockComment"`
+	Text string         `parser:"@Comment"`
+}
+
+type BlockComment struct {
+	Pos  lexer.Position `parser:""`
+	Text string         `parser:"@BlockComment"`
 }
 
 type File struct {
@@ -14,35 +19,38 @@ type File struct {
 }
 
 type FileChild struct {
-	Pos              lexer.Position       `parser:""`
-	StandaloneDocStr *StandaloneDocstring `parser:"@@"`
-	Comment          *Comment             `parser:"| @@"`
-	Namespace        *Namespace           `parser:"| @@"`
+	Pos          lexer.Position `parser:""`
+	Docstring    *Docstring     `parser:"@@"`
+	Comment      *Comment       `parser:"| @@"`
+	BlockComment *BlockComment  `parser:"| @@"`
+	Namespace    *Namespace     `parser:"| @@"`
 }
 
-type StandaloneDocstring struct {
+type Docstring struct {
 	Pos       lexer.Position `parser:""`
 	Text      string         `parser:"@Docstring"`
 	BlankLine bool           `parser:"@BlankLine"`
 }
 
 type Namespace struct {
-	Pos       lexer.Position    `parser:""`
-	Comments  []*Comment        `parser:"@@*"`
-	Docstring *string           `parser:"@Docstring?"`
-	Name      string            `parser:"'namespace' @Ident '{'"`
-	Children  []*NamespaceChild `parser:"@@* '}'"`
+	Pos           lexer.Position    `parser:""`
+	Comments      []*Comment        `parser:"@@*"`
+	BlockComments []*BlockComment   `parser:"@@*"`
+	Docstring     *string           `parser:"@Docstring?"`
+	Name          string            `parser:"'namespace' @Ident '{'"`
+	Children      []*NamespaceChild `parser:"@@* '}'"`
 }
 
 type NamespaceChild struct {
 	Pos lexer.Position `parser:""`
 
-	StandaloneDocStr *StandaloneDocstring `parser:"@@"`
-	Comment          *Comment             `parser:"| @@"`
-	Type             *TypeDef             `parser:"| @@"`
-	Enum             *EnumDef             `parser:"| @@"`
-	Const            *ConstDef            `parser:"| @@"`
-	Pattern          *PatternDef          `parser:"| @@"`
+	Docstring    *Docstring    `parser:"@@"`
+	Comment      *Comment      `parser:"| @@"`
+	BlockComment *BlockComment `parser:"| @@"`
+	Type         *TypeDef      `parser:"| @@"`
+	Enum         *EnumDef      `parser:"| @@"`
+	Const        *ConstDef     `parser:"| @@"`
+	Pattern      *PatternDef   `parser:"| @@"`
 }
 
 type TypeDef struct {
@@ -54,12 +62,13 @@ type TypeDef struct {
 }
 
 type Field struct {
-	Pos       lexer.Position `parser:""`
-	Comments  []*Comment     `parser:"@@*"`
-	Docstring *string        `parser:"@Docstring?"`
-	Name      string         `parser:"@Ident"`
-	Optional  bool           `parser:"@'?'?"`
-	Type      *TypeRef       `parser:"':' @@"`
+	Pos           lexer.Position  `parser:""`
+	Comments      []*Comment      `parser:"@@*"`
+	BlockComments []*BlockComment `parser:"@@*"`
+	Docstring     *string         `parser:"@Docstring?"`
+	Name          string          `parser:"@Ident"`
+	Optional      bool            `parser:"@'?'?"`
+	Type          *TypeRef        `parser:"':' @@"`
 }
 
 type TypeRef struct {
@@ -85,11 +94,12 @@ type EnumDef struct {
 }
 
 type EnumMember struct {
-	Pos       lexer.Position `parser:""`
-	Comments  []*Comment     `parser:"@@*"`
-	Docstring *string        `parser:"@Docstring?"`
-	Name      string         `parser:"@Ident"`
-	Value     *Value         `parser:"( '=' @@ )?"`
+	Pos           lexer.Position  `parser:""`
+	Comments      []*Comment      `parser:"@@*"`
+	BlockComments []*BlockComment `parser:"@@*"`
+	Docstring     *string         `parser:"@Docstring?"`
+	Name          string          `parser:"@Ident"`
+	Value         *Value          `parser:"( '=' @@ )?"`
 }
 
 type ConstDef struct {
