@@ -7,6 +7,7 @@ This directory contains the CLI for the UFO Contract project. You MUST follow th
 - All project communication MUST be in English (it includes the code, documentation, and comments).
 - Dont overuse comments, use them only when necessary because the code should be self-explanatory.
 - Dont overcomplicate the code, keep it simple and readable. Follow the KISS principle.
+- Every time you add a new feature or want to make sure the code is working as expected, run the command `task ci` to run the tests, lint, build and other checks. Make sure all the checks pass before committing your changes.
 
 ## Testing Guidelines
 
