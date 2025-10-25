@@ -22,7 +22,7 @@ version <number>
 """
 Documentation for the namespace.
 """
-namespace "NamespaceName" {
+namespace NamespaceName {
   """
   <Type Documentation>
   """
@@ -62,7 +62,7 @@ Generates: Packages (Go), Modules/Files (TS), Documentation Sections.
 Defines all contracts related to
 task management.
 """
-namespace "Tasks" {
+namespace Tasks {
   // ... all other definitions go here ...
 }
 ```
@@ -266,7 +266,7 @@ type MyType {
 Provide general documentation. Ensure there is at least one blank line between the docstring and any following element.
 
 ```text
-namespace "MyApi" {
+namespace MyApi {
   """
   This is general documentation for the 'types' section.
   It can include Markdown.
@@ -291,7 +291,7 @@ For extensive documentation, you can reference external Markdown files:
 ```text
 version 1
 
-namespace "Tasks" {
+namespace Tasks {
   // Standalone documentation
   """ ./docs/tasks-overview.md """
 
@@ -358,7 +358,7 @@ version 1
 This file defines all data contracts
 and messaging patterns for the 'Tasks' domain.
 """
-namespace "Tasks" {
+namespace Tasks {
 
   // --- Standalone Documentation ---
   """
